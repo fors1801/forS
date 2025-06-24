@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .main-question {
+            font-size: 2.5rem;
+            color: #8b1538;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .buttons-container {
+            position: relative;
+            height: 200px;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b9d, #ff8fab);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.3);
+            font-weight: bold;
+            margin: 0 20px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .btn:hover {
+            transform: translateY(-52%) scale(1.05);
+            box-shadow: 0 12px 35px rgba(255, 107, 157, 0.4);
+        }
+
+        .btn-yes {
+            left: 30%;
+            transform: translateX(-50%) translateY(-50%);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .btn-no {
+            right: 30%;
+            transform: translateX(50%) translateY(-50%);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .response-container {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .shayari {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            font-size: 1.3rem;
+            color: #8b1538;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 2rem 0;
+        }
+
+        .photo-item {
+            position: relative;
+            height: 180px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .photo-placeholder {
+            height: 180px;
+            background: linear-gradient(45deg, #ffeaa7, #fab1a0);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b1538;
+            font-size: 1rem;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .photo-placeholder:hover {
+            transform: scale(1.05);
+        }
+
+        /* Modal styles for enlarged images */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 15px;
+        }
+
+        .close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+
+        .love-message {
+            font-size: 1.5rem;
+            color: #8b1538;
+            margin: 2rem 0;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .calculator-btn {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+            margin-top: 1rem;
+        }
+
+        .calculator-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(108, 92, 231, 0.4);
+        }
+
+        .calculator-page {
+            display: none;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .calc-display {
+            width: 100%;
+            height: 60px;
+            font-size: 1.5rem;
+            text-align: right;
+            padding: 10px 15px;
+            border: 2px solid #ff6b9d;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            background: #ffeef0;
+        }
+
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .calc-btn {
+            height: 50px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .calc-btn:hover {
+            background: #ff6b9d;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .calc-btn.operator {
+            background: #ff6b9d;
+            color: white;
+        }
+
+        .calc-btn.equals {
+            background: #6c5ce7;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .back-btn {
+            background: #74b9ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #0984e3;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-question {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+                margin: 0 10px;
+                min-width: 100px;
+            }
+            
+            .btn-yes, .btn-no {
+                position: static;
+                transform: none;
+                margin: 10px;
+            }
+            
+            .buttons-container {
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            /* Ensure Yes button is visible when moved */
+            .btn-yes[style*="position: fixed"] {
+                min-width: 100px !important;
+                padding: 10px 25px !important;
+                font-size: 0.9rem !important;
+                white-space: nowrap;
+            }
+            
+            .shayari {
+                font-size: 1.1rem;
+                padding: 1.5rem;
+            }
+            
+            .love-message {
+                font-size: 1.2rem;
+            }
+
+            .photo-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .photo-item, .photo-placeholder {
+                height: 150px;
+            }
+
+            .modal-content {
+                max-width: 95%;
+                max-height: 85%;
+            }
+
+            .close {
+                top: -30px;
+                width: 30px;
+                height: 30px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Question Page -->
+        <div id="mainPage">
+            <h1 class="main-question">Are you sad? 💕</h1>
+            <div class="buttons-container">
+                <button class="btn btn-yes" id="yesBtn">Yes 😢</button>
+                <button class="btn btn-no" id="noBtn">No 😊</button>
+            </div>
+        </div>
+
+        <!-- Response Page -->
+        <div id="responsePage" class="hidden">
+            <div class="response-container">
+                <div class="shayari">
+                    मुस्कान तुम्हारी जैसे चाँद की रोशनी,<br>
+                    खुशी से भरा हो तुम्हारा हर दिन यही दुआ है मेरी।<br>
+                    गम को दूर भगाओ, हंसते रहो हमेशा,<br>
+                    क्योंकि तुम्हारी हंसी में छुपा है मेरा प्यार सारा। ✨💖
+                </div>
+                
+                <div class="photo-gallery">
+                    <div class="photo-item" onclick="openModal('WhatsApp Image 2025-06-24 at 16.09.03_cda9d97d.jpg')">
+                        <img src="WhatsApp Image 2025-06-24 at 16.09.03_cda9d97d.jpg" alt="Your Beautiful Smile">
+                    </div>
+                    <div class="photo-item" onclick="openModal('WhatsApp Image 2025-06-24 at 16.09.04_282a0416.jpg')">
+                        <img src="WhatsApp Image 2025-06-24 at 16.09.04_282a0416.jpg" alt="Happy Moments">
+                    </div>
+                    <div class="photo-item" onclick="openModal('WhatsApp Image 2025-06-24 at 16.09.04_b316cbf2.jpg')">
+                        <img src="WhatsApp Image 2025-06-24 at 16.09.04_b316cbf2.jpg" alt="Sweet Memories">
+                    </div>
+                </div>
+                
+                <div class="love-message">
+                    मुस्कुराते हुए कितनी प्यारी लगती हो,<br>
+                    इसलिए मुस्कुराते रहा करो! 💕✨
+                </div>
+                
+                <button class="calculator-btn" id="calcBtn">
+                    🧮 Special Calculator
+                </button>
+            </div>
+        </div>
+
+        <!-- Calculator Page -->
+        <div id="calculatorPage" class="calculator-page">
+            <button class="back-btn" id="backBtn">← Back</button>
+            <div class="calculator">
+                <input type="text" class="calc-display" id="display" readonly>
+                <div class="calc-buttons">
+                    <button class="calc-btn" onclick="clearDisplay()">C</button>
+                    <button class="calc-btn" onclick="deleteLast()">⌫</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('/')">/</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('*')">×</button>
+                    
+                    <button class="calc-btn" onclick="appendToDisplay('7')">7</button>
+                    <button class="calc-btn" onclick="appendToDisplay('8')">8</button>
+                    <button class="calc-btn" onclick="appendToDisplay('9')">9</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('-')">-</button>
+                    
+                    <button class="calc-btn" onclick="appendToDisplay('4')">4</button>
+                    <button class="calc-btn" onclick="appendToDisplay('5')">5</button>
+                    <button class="calc-btn" onclick="appendToDisplay('6')">6</button>
+                    <button class="calc-btn operator" onclick="appendToDisplay('+')">+</button>
+                    
+                    <button class="calc-btn" onclick="appendToDisplay('1')">1</button>
+                    <button class="calc-btn" onclick="appendToDisplay('2')">2</button>
+                    <button class="calc-btn" onclick="appendToDisplay('3')">3</button>
+                    <button class="calc-btn" onclick="appendToDisplay('0')" style="grid-row: span 2;">0</button>
+                    
+                    <button class="calc-btn" onclick="appendToDisplay('.')">.</button>
+                    <button class="calc-btn equals" onclick="calculate()">=</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for enlarged images -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img id="modalImage" src="" alt="Enlarged Image">
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const mainPage = document.getElementById('mainPage');
+        const responsePage = document.getElementById('responsePage');
+        const calculatorPage = document.getElementById('calculatorPage');
+        const calcBtn = document.getElementById('calcBtn');
+        const backBtn = document.getElementById('backBtn');
+        const display = document.getElementById('display');
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+
+        let yesClickCount = 0;
+
+        // Make Yes button move on hover/approach
+        yesBtn.addEventListener('mouseenter', function() {
+            moveYesButton();
+        });
+        
+        yesBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            moveYesButton();
+        });
+        
+        // Also move on click as backup
+        yesBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            moveYesButton();
+        });
+        
+        function moveYesButton() {
+            // Get viewport dimensions
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            
+            // Adjust button size and margins for mobile
+            const isMobile = viewportWidth <= 768;
+            const btnWidth = isMobile ? 100 : 120;
+            const btnHeight = isMobile ? 45 : 50;
+            const margin = isMobile ? 20 : 50;
+            
+            // Calculate safe area for button placement
+            const maxX = viewportWidth - btnWidth - margin;
+            const maxY = viewportHeight - btnHeight - margin;
+            
+            // Ensure minimum values
+            const minX = margin;
+            const minY = margin;
+            
+            // Generate random position within safe viewport area
+            const randomX = Math.max(minX, Math.min(maxX, minX + Math.random() * (maxX - minX)));
+            const randomY = Math.max(minY, Math.min(maxY, minY + Math.random() * (maxY - minY)));
+            
+            // Apply new position
+            yesBtn.style.position = 'fixed';
+            yesBtn.style.left = randomX + 'px';
+            yesBtn.style.top = randomY + 'px';
+            yesBtn.style.transform = 'none';
+            yesBtn.style.zIndex = '1000';
+            
+            // Ensure button is visible
+            yesBtn.style.display = 'block';
+            yesBtn.style.visibility = 'visible';
+            yesBtn.style.opacity = '1';
+            
+            // Keep original text
+            yesBtn.textContent = 'Yes 😢';
+            
+            // Add a little bounce animation
+            yesBtn.style.animation = 'bounce 0.5s ease';
+            setTimeout(() => {
+                yesBtn.style.animation = '';
+            }, 500);
+        }
+
+        // No button - show response
+        noBtn.addEventListener('click', function() {
+            mainPage.classList.add('hidden');
+            responsePage.classList.remove('hidden');
+        });
+
+        // Calculator button
+        calcBtn.addEventListener('click', function() {
+            responsePage.classList.add('hidden');
+            calculatorPage.style.display = 'block';
+        });
+
+        // Back button
+        backBtn.addEventListener('click', function() {
+            calculatorPage.style.display = 'none';
+            responsePage.classList.remove('hidden');
+        });
+
+        // Modal functions
+        function openModal(imageSrc) {
+            modal.style.display = 'block';
+            modalImage.src = imageSrc;
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        // Close modal when clicking outside the image
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                closeModal();
+            }
+        });
+
+        // Calculator functions
+        function appendToDisplay(value) {
+            display.value += value;
+        }
+
+        function clearDisplay() {
+            display.value = '';
+        }
+
+        function deleteLast() {
+            display.value = display.value.slice(0, -1);
+        }
+
+        function calculate() {
+            // No matter what the calculation, always show "I Love You ❤️"
+            display.value = 'I Love You ❤️';
+            
+            // Add a little celebration effect
+            setTimeout(() => {
+                display.style.background = 'linear-gradient(45deg, #ff9a9e, #fecfef)';
+                display.style.color = '#8b1538';
+                display.style.fontWeight = 'bold';
+                display.style.textAlign = 'center';
+            }, 100);
+        }
+
+        // Reset calculator display styling when typing
+        display.addEventListener('input', function() {
+            display.style.background = '#ffeef0';
+            display.style.color = '#333';
+            display.style.fontWeight = 'normal';
+            display.style.textAlign = 'right';
+        });
+
+        // Add floating hearts animation
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '💖';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.fontSize = '20px';
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '1000';
+            heart.style.animation = 'floatUp 4s ease-in-out forwards';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+
+        // Create hearts periodically
+        setInterval(createHeart, 3000);
+    </script>
+</body>
+</html>
